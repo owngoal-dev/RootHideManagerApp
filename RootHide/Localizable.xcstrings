@@ -897,7 +897,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "正在清除「%@」的数据…"
+            "value": "正在清除 “%@” 的数据…"
           }
         }
       }
@@ -1056,7 +1056,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "无法清除「%@」的数据"
+            "value": "无法清除 “%@” 的数据"
           }
         }
       }
@@ -1268,7 +1268,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "已清除「%@」的数据"
+            "value": "已清除 “%@” 的数据"
           }
         }
       }

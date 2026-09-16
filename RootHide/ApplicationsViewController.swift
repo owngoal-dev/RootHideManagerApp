@@ -210,7 +210,8 @@ final class ApplicationsViewController: UITableViewController, UISearchResultsUp
                 isLoading
                 ? localized("Loading…")
                 : apps.isEmpty ? localized("No apps found") : localized("No search results")
-            content.secondaryText = isLoading ? nil : localized("Pull to refresh")
+            content.secondaryText =
+                apps.isEmpty && !isLoading ? localized("Pull to refresh") : nil
             content.image = UIImage(systemName: "magnifyingglass")
             content.imageProperties.tintColor = .secondaryLabel
         } else {
@@ -339,7 +340,6 @@ final class ApplicationsViewController: UITableViewController, UISearchResultsUp
         let app = filtered[indexPath.row]
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             UIMenu(
-                title: app.name ?? "",
                 children: [
                     UIAction(
                         title: localized("Clear App Data"), image: UIImage(systemName: "trash"),
@@ -380,13 +380,7 @@ final class ApplicationsViewController: UITableViewController, UISearchResultsUp
         alert.addAction(
             UIAlertAction(title: localized("Clear Data"), style: .destructive) { _ in
                 self.isWorking = true
-                self.operationStatus = String(format: localized("Clearing data for %@…"), name)
-                self.tableView.reloadData()
-                if self.showsDeviceStatus {
-                    self.tableView.scrollToRow(
-                        at: IndexPath(row: 1, section: 0), at: .top, animated: true)
-                }
-                self.workQueue.async {
+                let work = DispatchWorkItem {
                     let error = RHBackend.clearData(for: app)
                     DispatchQueue.main.async {
                         self.isWorking = false
@@ -403,6 +397,15 @@ final class ApplicationsViewController: UITableViewController, UISearchResultsUp
                         UIAccessibility.post(
                             notification: .announcement, argument: self.operationStatus)
                         self.refreshIfNeeded()
+                    }
+                }
+                self.workQueue.async(execute: work)
+                if work.wait(timeout: .now() + .milliseconds(500)) == .timedOut {
+                    self.operationStatus = String(format: localized("Clearing data for %@…"), name)
+                    self.tableView.reloadData()
+                    if self.showsDeviceStatus {
+                        self.tableView.scrollToRow(
+                            at: IndexPath(row: 1, section: 0), at: .top, animated: true)
                     }
                 }
             })

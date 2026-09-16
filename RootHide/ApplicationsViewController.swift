@@ -181,6 +181,7 @@ final class ApplicationsViewController: UITableViewController, UISearchResultsUp
             reuseIdentifier: indexPath.section == applicationsSection ? "App" : "Status")
         cell.accessoryView = nil
         cell.accessoryType = .none
+        cell.accessibilityValue = nil
         cell.selectionStyle = .none
         if indexPath.section != applicationsSection {
             if indexPath.row == 0 {

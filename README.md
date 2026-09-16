@@ -29,7 +29,7 @@ make THEOS="$HOME/theos-roothide" package
 
 `make format` 合并 Xcode 自带的 `swift-format` 与 `clang-format`，后者须在 PATH 中（可用 `brew install clang-format` 安装）。可通过 `SWIFT_FORMAT`、`CLANG_FORMAT` 覆盖命令。第三方 JSON 注释解析器及 RootHide 头文件不批量改写。
 
-`make check` 需要 Python 3 和 Xcode 命令行工具，验证八语言翻译覆盖及参数一致性、环境摘要的分组与简写、清理规则优先级和选择恢复、内置规则 CRC；不执行清理操作。修改 `VarCleanRules.json` 后需同步更新 `VarCleanRules.h`，Theos 的 `before-all` 会自动生成该校验值。
+`make check` 需要 Python 3 和 Xcode 命令行工具，验证八语言翻译覆盖及参数一致性、环境摘要的分组与简写、服务端口配置的读写与校验、清理规则优先级和选择恢复、内置规则 CRC；不执行清理操作。修改 `VarCleanRules.json` 后需同步更新 `VarCleanRules.h`，Theos 的 `before-all` 会自动生成该校验值。
 
 本地化集中于 `RootHide/Localizable.xcstrings`：英语、简体中文、日语、德语、法语、意大利语、阿拉伯语、越南语。旧配置文件路径及格式保持兼容。
 

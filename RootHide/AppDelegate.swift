@@ -4,6 +4,7 @@ import UIKit
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     private var cleanupTimer: Timer?
+    private var environmentCheck: EnvironmentCheck?
 
     func application(
         _ application: UIApplication,
@@ -21,12 +22,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         do {
             try RHBackend.prepare()
             let check = EnvironmentCheck()
+            environmentCheck = check
             let applications = ApplicationsViewController(check: check)
             let cleaner = CleanerViewController()
             let controllers: [(UIViewController, String, String)] = [
                 (applications, localized("Blacklist"), "shield"),
                 (cleaner, localized("var Cleanup"), "folder"),
-                (SettingsViewController(), localized("Settings"), "gearshape"),
+                (SettingsViewController(check: check), localized("Settings"), "gearshape"),
             ]
             let tabs = UITabBarController()
             tabs.viewControllers = controllers.enumerated().map { index, item in
@@ -59,6 +61,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {
         cleanupTimer?.invalidate()
         cleanupTimer = nil
+        environmentCheck?.refresh()
     }
 }
 

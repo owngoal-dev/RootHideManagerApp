@@ -1,7 +1,12 @@
 import UIKit
 
 final class SettingsViewController: UITableViewController {
-    init() {
+    private let check: EnvironmentCheck
+    private var services: [ManagedService] = []
+    private var rulesSection: Int { services.isEmpty ? 0 : 1 }
+
+    init(check: EnvironmentCheck) {
+        self.check = check
         super.init(style: .insetGrouped)
         title = localized("Settings")
     }
@@ -11,13 +16,23 @@ final class SettingsViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+        refreshServices()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        services = ManagedService.installed
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 120
         tableView.tableHeaderView = brandHeader()
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(refreshServices),
+            name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+
+    @objc private func refreshServices() {
+        services = ManagedService.installed
+        tableView.reloadData()
     }
 
     override func viewDidLayoutSubviews() {
@@ -34,30 +49,32 @@ final class SettingsViewController: UITableViewController {
         }
     }
 
-    override func numberOfSections(in tableView: UITableView) -> Int { 1 }
+    override func numberOfSections(in tableView: UITableView) -> Int { rulesSection + 1 }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        section == rulesSection ? 1 : services.count
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int)
         -> String?
     {
-        localized("Advanced")
+        localized(section == rulesSection ? "Advanced" : "Services")
     }
 
     override func tableView(
         _ tableView: UITableView, cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        let cell = detailCell(in: tableView, reuseIdentifier: "Rules")
+        let isRule = indexPath.section == rulesSection
+        let cell = detailCell(in: tableView, reuseIdentifier: isRule ? "Rules" : "Service")
         var content = cell.defaultContentConfiguration()
-        content.text = localized("Custom Cleanup Rules")
-        content.secondaryText = localized("Edit cleanup rules in Filza.")
+        content.text = isRule ? localized("Custom Cleanup Rules") : services[indexPath.row].title
+        content.secondaryText =
+            isRule ? localized("Edit cleanup rules in Filza.") : services[indexPath.row].portSummary
         content.textProperties.numberOfLines = 0
         content.secondaryTextProperties.numberOfLines = 0
         content.secondaryTextProperties.color = .secondaryLabel
         content.textToSecondaryTextVerticalPadding = 6
-        content.image = UIImage(systemName: "doc.text")
+        content.image = UIImage(systemName: isRule ? "doc.text" : services[indexPath.row].symbol)
         content.imageProperties.tintColor = AppTheme.tint
         content.imageProperties.maximumSize = CGSize(width: 26, height: 26)
         content.imageProperties.reservedLayoutSize = CGSize(width: 32, height: 26)
@@ -66,7 +83,8 @@ final class SettingsViewController: UITableViewController {
         content.directionalLayoutMargins = NSDirectionalEdgeInsets(
             top: 16, leading: 20, bottom: 16, trailing: 20)
         cell.contentConfiguration = content
-        cell.accessoryType = .disclosureIndicator
+        cell.accessoryType = isRule ? .disclosureIndicator : .detailButton
+        cell.selectionStyle = isRule ? .default : .none
         return cell
     }
 
@@ -121,6 +139,18 @@ final class SettingsViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        openInFilza(path: RHBackend.customRulesPath(), from: self)
+        if indexPath.section == rulesSection {
+            openInFilza(path: RHBackend.customRulesPath(), from: self)
+        }
+    }
+
+    override func tableView(
+        _ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath
+    ) {
+        guard indexPath.section != rulesSection else { return }
+        presentServicePorts(services[indexPath.row], from: self) { [weak self] in
+            self?.check.refresh()
+            self?.refreshServices()
+        }
     }
 }

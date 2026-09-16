@@ -1,4 +1,5 @@
 #import "RHBackend.h"
+#import "RHServicePorts.h"
 #import "NSJSONSerialization+Comments.h"
 #import "VarCleanRules.h"
 #import "roothide.h"
@@ -288,26 +289,38 @@ static BOOL RHPortIsOpen(uint16_t port) {
             @"message" : [unknownMounts componentsJoinedByString:@"\n"]
         }];
     }
-    if (RHPortIsOpen(22) || RHPortIsOpen(2222)) {
-        [warnings addObject:@{
-            @"title" : NSLocalizedString(@"SSH Server", nil),
-            @"message" : NSLocalizedString(
-                @"SSH Server has been installed, you can uninstall it via Sileo/Zebra.", nil)
-        }];
-    }
-    if (RHPortIsOpen(44)) {
-        [warnings addObject:@{
-            @"title" : NSLocalizedString(@"Dropbear", nil),
-            @"message" : NSLocalizedString(
-                @"Dropbear has been installed, you can uninstall it via Sileo/Zebra.", nil)
-        }];
-    }
-    if (RHPortIsOpen(27042)) {
-        [warnings addObject:@{
-            @"title" : NSLocalizedString(@"Frida Server", nil),
-            @"message" : NSLocalizedString(
-                @"Frida Server has been installed, you can uninstall it via Sileo/Zebra.", nil)
-        }];
+    NSArray *installedServices = RHServicePorts.installedServices;
+    NSArray *serviceIDs = @[ @"openssh", @"dropbear", @"frida" ];
+    NSArray *titles = @[
+        NSLocalizedString(@"SSH Server", nil), NSLocalizedString(@"Dropbear", nil),
+        NSLocalizedString(@"Frida Server", nil)
+    ];
+    NSArray *messages = @[
+        NSLocalizedString(@"SSH Server has been installed, you can uninstall it via Sileo/Zebra.",
+                          nil),
+        NSLocalizedString(@"Dropbear has been installed, you can uninstall it via Sileo/Zebra.",
+                          nil),
+        NSLocalizedString(@"Frida Server has been installed, you can uninstall it via Sileo/Zebra.",
+                          nil)
+    ];
+    NSArray *checkPorts = @[ @[ @22, @2222 ], @[ @44 ], @[ @27042 ] ];
+    for (NSUInteger index = 0; index < serviceIDs.count; index++) {
+        NSString *service = serviceIDs[index];
+        BOOL active = NO;
+        for (NSNumber *port in checkPorts[index]) {
+            if (RHPortIsOpen(port.unsignedShortValue)) {
+                active = YES;
+                break;
+            }
+        }
+        if (active) {
+            NSMutableDictionary *finding =
+                [@{@"title" : titles[index], @"message" : messages[index]} mutableCopy];
+            if ([installedServices containsObject:service]) {
+                finding[@"service"] = service;
+            }
+            [warnings addObject:finding];
+        }
     }
     NSDictionary *proxySettings = CFBridgingRelease(CFNetworkCopySystemProxySettings());
     if ([proxySettings[(__bridge NSString *)kCFNetworkProxiesHTTPEnable] boolValue]) {

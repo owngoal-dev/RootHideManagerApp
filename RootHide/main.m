@@ -3,6 +3,7 @@
 #import <objc/message.h>
 #import <UIKit/UIKit.h>
 #import "AppInfo.h"
+#import "RHServicePorts.h"
 
 extern const char **environ;
 
@@ -123,35 +124,21 @@ int spawnRoot(NSString *path, NSArray *args, NSString **stdOut, NSString **stdEr
     }
     argsC[argCount] = NULL;
 
-    __block NSMutableString *outString = nil;
-    __block NSMutableString *errString = nil;
-
-    if (stdOut)
-        outString = [NSMutableString new];
-    if (stdErr)
-        errString = [NSMutableString new];
-
+    NSMutableData *outData = stdOut ? [NSMutableData new] : nil;
+    NSMutableData *errData = stdErr ? [NSMutableData new] : nil;
     int retval = spawn(
         path.fileSystemRepresentation, argsC, environ,
-        ^(char *outstr, int length) {
-            NSString *str = [[NSString alloc] initWithBytes:outstr
-                                                     length:length
-                                                   encoding:NSASCIIStringEncoding];
-            if (stdOut)
-                [outString appendString:str];
+        ^(char *bytes, int length) {
+            [outData appendBytes:bytes length:length];
         },
-        ^(char *errstr, int length) {
-            NSString *str = [[NSString alloc] initWithBytes:errstr
-                                                     length:length
-                                                   encoding:NSASCIIStringEncoding];
-            if (stdErr)
-                [errString appendString:str];
+        ^(char *bytes, int length) {
+            [errData appendBytes:bytes length:length];
         });
 
     if (stdOut)
-        *stdOut = outString.copy;
+        *stdOut = [[NSString alloc] initWithData:outData encoding:NSUTF8StringEncoding] ?: @"";
     if (stdErr)
-        *stdErr = errString.copy;
+        *stdErr = [[NSString alloc] initWithData:errData encoding:NSUTF8StringEncoding] ?: @"";
 
     for (NSUInteger i = 0; i < argCount; i++) {
         free(argsC[i]);
@@ -279,6 +266,34 @@ BOOL RootUserGetDirectoryContents(NSString *path, NSString *cacheFile) {
 }
 
 int main(int argc, char *argv[]) {
+
+    if (argc >= 2 &&
+        (strcmp(argv[1], "servicePorts") == 0 || strcmp(argv[1], "setServicePorts") == 0)) {
+        @autoreleasepool {
+            NSError *error = nil;
+            if (argc == 3 && strcmp(argv[1], "servicePorts") == 0) {
+                NSArray *ports = [RHServicePorts portsForService:@(argv[2]) error:&error];
+                if (ports) {
+                    NSData *data = [NSJSONSerialization dataWithJSONObject:ports
+                                                                   options:0
+                                                                     error:&error];
+                    if (data) {
+                        fwrite(data.bytes, 1, data.length, stdout);
+                        fputc('\n', stdout);
+                        return 0;
+                    }
+                }
+            } else if (argc == 4 && strcmp(argv[1], "setServicePorts") == 0) {
+                NSArray *ports = [@(argv[3]) componentsSeparatedByString:@","];
+                if ([RHServicePorts setPorts:ports forService:@(argv[2]) error:&error]) {
+                    return 0;
+                }
+            }
+            fprintf(stderr, "%s\n",
+                    (error.localizedDescription ?: @"Invalid service port request").UTF8String);
+            return 1;
+        }
+    }
 
     if (argc >= 2) {
         if (argc == 3 && strcmp(argv[1], "removeItemAtPath") == 0) {

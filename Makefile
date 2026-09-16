@@ -59,4 +59,5 @@ format-check:
 check:
 	python3 Tests/check_localizations.py
 	python3 Tests/check_environment_summary.py
+	python3 Tests/check_service_ports.py
 	./Tests/check.sh

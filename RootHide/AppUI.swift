@@ -119,6 +119,40 @@ final class EnvironmentCheck {
             ? .secondaryLabel : findings.isEmpty ? AppTheme.tint : .systemOrange
         cell.contentConfiguration = content
         cell.accessoryType = .disclosureIndicator
+        cell.accessoryView = nil
+        cell.accessibilityValue = nil
+        if !findings.isEmpty {
+            let badge = UILabel()
+            badge.text = findings.count.formatted()
+            badge.font = .preferredFont(forTextStyle: .subheadline)
+            badge.adjustsFontForContentSizeCategory = true
+            badge.textAlignment = .center
+            badge.textColor = .white
+            badge.backgroundColor = .systemRed
+            badge.isAccessibilityElement = false
+            let height = max(24, ceil(badge.font.lineHeight) + 6)
+            badge.layer.cornerRadius = height / 2
+            badge.clipsToBounds = true
+            NSLayoutConstraint.activate([
+                badge.widthAnchor.constraint(
+                    equalToConstant: max(height, ceil(badge.intrinsicContentSize.width) + 12)),
+                badge.heightAnchor.constraint(equalToConstant: height),
+            ])
+            let indicator = UIImageView(
+                image: UIImage(
+                    systemName: "chevron.forward",
+                    withConfiguration: UIImage.SymbolConfiguration(pointSize: 13, weight: .semibold)
+                ))
+            indicator.tintColor = .tertiaryLabel
+            let accessory = UIStackView(arrangedSubviews: [badge, indicator])
+            accessory.alignment = .center
+            accessory.spacing = 8
+            accessory.isUserInteractionEnabled = false
+            accessory.frame.size = accessory.systemLayoutSizeFitting(
+                UIView.layoutFittingCompressedSize)
+            cell.accessoryView = accessory
+            cell.accessibilityValue = badge.text
+        }
         cell.accessibilityHint = localized("Show Details")
     }
 }
@@ -168,6 +202,7 @@ final class EnvironmentViewController: UITableViewController {
         _ tableView: UITableView, cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         let cell = detailCell(in: tableView)
+        cell.accessoryType = .none
         var content = cell.defaultContentConfiguration()
         if check.findings.isEmpty {
             content.text = check.summary
@@ -184,6 +219,9 @@ final class EnvironmentViewController: UITableViewController {
                 localized("Frida Server"): "ladybug.fill",
                 localized("VPN or Proxy"): "network",
             ]
+            if let identifier = finding["service"], ManagedService(rawValue: identifier) != nil {
+                cell.accessoryType = .detailButton
+            }
             content.text = finding["title"]
             content.secondaryText = finding["message"]
             content.image = UIImage(
@@ -203,4 +241,15 @@ final class EnvironmentViewController: UITableViewController {
         cell.contentConfiguration = content
         return cell
     }
+
+    override func tableView(
+        _ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath
+    ) {
+        guard indexPath.row < check.findings.count,
+            let identifier = check.findings[indexPath.row]["service"],
+            let service = ManagedService(rawValue: identifier)
+        else { return }
+        presentServicePorts(service, from: self) { [weak self] in self?.check.refresh() }
+    }
+
 }

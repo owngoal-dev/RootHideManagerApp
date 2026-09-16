@@ -52,7 +52,7 @@ catalog = json.loads(
 assert catalog["sourceLanguage"] == "en"
 assert catalog["version"] == "1.0"
 strings = catalog["strings"]
-assert not {"General", "Whitelist Mode", "auto blacklist newly installed apps"} & strings.keys()
+assert {"General", "Whitelist Mode", "Automatically blacklist newly installed apps."} <= strings.keys()
 
 for key, entry in strings.items():
     assert set(entry["localizations"]) == LANGUAGES, f"Missing or unexpected language: {key!r}"

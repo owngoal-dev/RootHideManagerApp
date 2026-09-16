@@ -11,6 +11,15 @@ struct URLSchemeRule: Equatable {
 enum URLSchemeRules {
     static let key = "urlSchemeReplacements"
 
+    static var isSupported: Bool {
+        guard let version = RHBackend.relaxinMarketingVersion(),
+            version.split(separator: ".", omittingEmptySubsequences: false).allSatisfy({
+                UInt($0) != nil
+            })
+        else { return false }
+        return version.compare("0.5.4", options: .numeric) != .orderedAscending
+    }
+
     static func normalize(_ input: String?) -> String? {
         guard var scheme = input?.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         else { return nil }

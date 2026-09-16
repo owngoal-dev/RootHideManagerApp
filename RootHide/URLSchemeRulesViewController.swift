@@ -49,6 +49,12 @@ final class URLSchemeRulesViewController: UITableViewController {
         localized("Replacement Rules")
     }
 
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int)
+        -> String?
+    {
+        localized("Replacement rules do not apply to blacklisted apps.")
+    }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath)
         -> UITableViewCell
     {

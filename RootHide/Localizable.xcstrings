@@ -3764,6 +3764,59 @@
         }
       }
     },
+    "Replacement rules do not apply to blacklisted apps.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا تنطبق قواعد الاستبدال على التطبيقات المدرجة في القائمة السوداء."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ersetzungsregeln gelten nicht für Apps auf der Blacklist."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Replacement rules do not apply to blacklisted apps."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les règles de remplacement ne s’appliquent pas aux apps sur liste noire."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le regole di sostituzione non si applicano alle app nella lista nera."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ブラックリスト内のアプリには置換ルールは適用されません。"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Các quy tắc thay thế không áp dụng cho ứng dụng trong danh sách đen."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "替换规则不适用于黑名单中的 App。"
+          }
+        }
+      }
+    },
     "Review files in specified paths that apps may use to identify a jailbreak. Remove only items you recognize.": {
       "extractionState": "manual",
       "localizations": {

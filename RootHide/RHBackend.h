@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
                   forKey:(NSString *)key
                    error:(NSError **)error NS_SWIFT_NAME(setConfiguration(_:forKey:));
 + (NSArray<AppInfo *> *)installedApps NS_SWIFT_NAME(installedApps());
++ (nullable NSString *)relaxinMarketingVersion NS_SWIFT_NAME(relaxinMarketingVersion());
 + (nullable NSString *)blacklistUnavailableReason NS_SWIFT_NAME(blacklistUnavailableReason());
 + (nullable NSString *)blacklistRejectionForApp:(AppInfo *)app
     NS_SWIFT_NAME(blacklistRejection(for:));

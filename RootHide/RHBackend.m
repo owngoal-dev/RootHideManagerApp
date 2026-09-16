@@ -146,6 +146,29 @@ static BOOL RHPortIsOpen(uint16_t port) {
     return applications;
 }
 
++ (NSString *)relaxinMarketingVersion {
+    NSString *identifier = [NSString stringWithContentsOfFile:jbroot(@"/basebin/.AppIdentifier")
+                                                     encoding:NSUTF8StringEncoding
+                                                        error:nil];
+    identifier = [identifier
+        stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
+    if (!identifier.length) {
+        return nil;
+    }
+    NSURL *bundleURL = [AppInfo appWithBundleIdentifier:identifier].bundleURL;
+    if (!bundleURL) {
+        return nil;
+    }
+    NSDictionary *info = [NSDictionary
+        dictionaryWithContentsOfURL:[bundleURL URLByAppendingPathComponent:@"Info.plist"]];
+    NSString *executable = info[@"CFBundleExecutable"];
+    if (![@"Relaxin" isEqual:executable] && ![@"RelaxinLite" isEqual:executable]) {
+        return nil;
+    }
+    id version = info[@"CFBundleShortVersionString"];
+    return [version isKindOfClass:NSString.class] ? version : nil;
+}
+
 + (NSString *)blacklistUnavailableReason {
     if (![[self configurationForKey:@"blacklistDisabled"] boolValue]) {
         return nil;

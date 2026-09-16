@@ -8,7 +8,7 @@ iOS 15+。Swift/UIKit 界面，保留 Objective-C 系统接口和清理规则引
 
 启动前同步准备首屏数据，不展示转圈页或淡入过渡。启动检查汇总到黑名单页的“环境检查”，摘要直接列出发现项，详情支持下拉刷新，不再逐项弹窗。设置保留自定义清理规则和关于区域，移除“通用”和原已禁用的“白名单模式”。
 
-设置的“高级 → URL Scheme 替换”管理 Relaxin 的自定义 Scheme 规则：列表开关立即保存，点行编辑，侧滑删除。新建规则默认开启，编辑保留开关状态；首次预置的 `filza → fila` 默认关闭，删除后不会补回。配置存入 `RootHideConfig.plist` 的 `urlSchemeReplacements` 字典，每项包含 `target` 和 `enabled`。更新后的 roothidehooks 在下一次 URL 请求中检查变更并生效，配置未变时不重复读取解析。规则仅作用于非黑名单 App，保留原 Scheme 的查询声明校验；黑名单 App 沿用原有访问限制。规则只替换 Scheme；目标未安装时保留原链接。
+设置的“高级 → URL Scheme 替换”仅在已安装 Relaxin 的营销版本不低于 `0.5.4` 时显示，不考虑构建号。通过当前环境的 `/basebin/.AppIdentifier` 查找实际安装的 Relaxin，兼容重签后更改 Bundle ID 的情况；记录缺失或 App 已卸载时隐藏入口。该页面管理自定义 Scheme 规则：列表开关立即保存，点行编辑，侧滑删除。新建规则默认开启，编辑保留开关状态；首次预置的 `filza → fila` 默认关闭，删除后不会补回。配置存入 `RootHideConfig.plist` 的 `urlSchemeReplacements` 字典，每项包含 `target` 和 `enabled`。更新后的 roothidehooks 在下一次 URL 请求中检查变更并生效，配置未变时不重复读取解析。规则仅作用于非黑名单 App，保留原 Scheme 的查询声明校验；黑名单 App 沿用原有访问限制。规则只替换 Scheme；目标未安装时保留原链接。
 
 ## 构建与检查
 

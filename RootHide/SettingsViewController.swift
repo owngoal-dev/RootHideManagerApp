@@ -3,6 +3,7 @@ import UIKit
 final class SettingsViewController: UITableViewController {
     private let check: EnvironmentCheck
     private var services: [ManagedService] = []
+    private var showsURLSchemeReplacements = false
     private var rulesSection: Int { services.isEmpty ? 0 : 1 }
 
     init(check: EnvironmentCheck) {
@@ -22,6 +23,7 @@ final class SettingsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         services = ManagedService.installed
+        showsURLSchemeReplacements = URLSchemeRules.isSupported
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 120
         tableView.tableHeaderView = brandHeader()
@@ -32,6 +34,7 @@ final class SettingsViewController: UITableViewController {
 
     @objc private func refreshServices() {
         services = ManagedService.installed
+        showsURLSchemeReplacements = URLSchemeRules.isSupported
         tableView.reloadData()
     }
 
@@ -52,7 +55,7 @@ final class SettingsViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int { rulesSection + 1 }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        section == rulesSection ? 2 : services.count
+        section == rulesSection ? (showsURLSchemeReplacements ? 2 : 1) : services.count
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int)
@@ -65,7 +68,7 @@ final class SettingsViewController: UITableViewController {
         _ tableView: UITableView, cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         let isRule = indexPath.section == rulesSection
-        let isReplacement = isRule && indexPath.row == 0
+        let isReplacement = isRule && showsURLSchemeReplacements && indexPath.row == 0
         let cell = detailCell(in: tableView, reuseIdentifier: isRule ? "Rules" : "Service")
         var content = cell.defaultContentConfiguration()
         content.text =
@@ -149,7 +152,7 @@ final class SettingsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == rulesSection {
-            if indexPath.row == 0 {
+            if showsURLSchemeReplacements && indexPath.row == 0 {
                 navigationController?.pushViewController(
                     URLSchemeRulesViewController(), animated: true)
             } else {

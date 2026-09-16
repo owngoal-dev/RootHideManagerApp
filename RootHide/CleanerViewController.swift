@@ -455,10 +455,12 @@ final class CleanerViewController: UITableViewController {
         else { return nil }
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self] _ in
             UIMenu(children: [
-                UIAction(title: localized("Open in Filza"), image: UIImage(systemName: "folder")) {
+                UIAction(
+                    title: localized("Open in File Manager"), image: UIImage(systemName: "folder")
+                ) {
                     _ in
                     guard let self else { return }
-                    openInFilza(path: path, from: self)
+                    openInFileManager(path: path, from: self)
                 },
                 UIAction(title: localized("Copy Path"), image: UIImage(systemName: "doc.on.doc")) {
                     _ in

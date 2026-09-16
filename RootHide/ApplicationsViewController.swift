@@ -164,7 +164,7 @@ final class ApplicationsViewController: UITableViewController, UISearchResultsUp
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int)
         -> String?
     {
-        section == applicationsSection ? localized("Applications") : localized("Device Status")
+        section == applicationsSection ? localized("Applications") : localized("Status")
     }
 
     override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int)

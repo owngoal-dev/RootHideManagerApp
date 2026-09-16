@@ -26,6 +26,8 @@
 		1ABB0BD182343F4D3D34C97F /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 1D0D1BEDF1A3D6E5DD573FEF /* Localizable.xcstrings */; };
 		AF737F9D50873E5F2A866352 /* RHServicePorts.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC90C131A8DAF0249A56E4D /* RHServicePorts.m */; };
 		87A875551EF338E170387F1F /* ServicePortsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBE446981E8180EE6C00850 /* ServicePortsViewController.swift */; };
+		9CE313C1225F23ECFF381842 /* URLSchemeRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3867B2F887651DAF4ED47F /* URLSchemeRules.swift */; };
+		853872BBF6F4A946C7A49E52 /* URLSchemeRulesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C651B7E5F16BFE7972ED4FED /* URLSchemeRulesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +66,8 @@
 		AD440198402C438BF83FD09C /* RHServicePorts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RHServicePorts.h"; sourceTree = "<group>"; };
 		1FC90C131A8DAF0249A56E4D /* RHServicePorts.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "RHServicePorts.m"; sourceTree = "<group>"; };
 		1FBE446981E8180EE6C00850 /* ServicePortsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ServicePortsViewController.swift"; sourceTree = "<group>"; };
+		5A3867B2F887651DAF4ED47F /* URLSchemeRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSchemeRules.swift; sourceTree = "<group>"; };
+		C651B7E5F16BFE7972ED4FED /* URLSchemeRulesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSchemeRulesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +123,8 @@
 				48D98F0ECB7381B5EE018586 /* ApplicationsViewController.swift */,
 				DE1A8B1793CBF40B3F3CC395 /* CleanerViewController.swift */,
 				5DF354BA4E12ECD10CD88066 /* SettingsViewController.swift */,
+				C651B7E5F16BFE7972ED4FED /* URLSchemeRulesViewController.swift */,
+				5A3867B2F887651DAF4ED47F /* URLSchemeRules.swift */,
 				1FBE446981E8180EE6C00850 /* ServicePortsViewController.swift */,
 				1FC90C131A8DAF0249A56E4D /* RHServicePorts.m */,
 				AD440198402C438BF83FD09C /* RHServicePorts.h */,
@@ -236,6 +242,8 @@
 				DE3EF99B42548AABDB56B5F8 /* ApplicationsViewController.swift in Sources */,
 				15386168BE3D6F1250F2C642 /* CleanerViewController.swift in Sources */,
 				A47807C9DBB8B298C437C870 /* SettingsViewController.swift in Sources */,
+				853872BBF6F4A946C7A49E52 /* URLSchemeRulesViewController.swift in Sources */,
+				9CE313C1225F23ECFF381842 /* URLSchemeRules.swift in Sources */,
 				87A875551EF338E170387F1F /* ServicePortsViewController.swift in Sources */,
 				AF737F9D50873E5F2A866352 /* RHServicePorts.m in Sources */,
 				696E2EA6DC77AF0F1EDF6028 /* RHBackend.m in Sources */,

@@ -52,7 +52,7 @@ final class SettingsViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int { rulesSection + 1 }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        section == rulesSection ? 1 : services.count
+        section == rulesSection ? 2 : services.count
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int)
@@ -65,16 +65,25 @@ final class SettingsViewController: UITableViewController {
         _ tableView: UITableView, cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         let isRule = indexPath.section == rulesSection
+        let isReplacement = isRule && indexPath.row == 0
         let cell = detailCell(in: tableView, reuseIdentifier: isRule ? "Rules" : "Service")
         var content = cell.defaultContentConfiguration()
-        content.text = isRule ? localized("Custom Cleanup Rules") : services[indexPath.row].title
+        content.text =
+            isRule
+            ? localized(isReplacement ? "URL Scheme Replacements" : "Custom Cleanup Rules")
+            : services[indexPath.row].title
         content.secondaryText =
-            isRule ? localized("Edit cleanup rules in Filza.") : services[indexPath.row].portSummary
+            isRule
+            ? (isReplacement ? nil : localized("Edit cleanup rules in a file manager."))
+            : services[indexPath.row].portSummary
         content.textProperties.numberOfLines = 0
         content.secondaryTextProperties.numberOfLines = 0
         content.secondaryTextProperties.color = .secondaryLabel
         content.textToSecondaryTextVerticalPadding = 6
-        content.image = UIImage(systemName: isRule ? "doc.text" : services[indexPath.row].symbol)
+        content.image = UIImage(
+            systemName: isRule
+                ? (isReplacement ? "arrow.triangle.branch" : "doc.text")
+                : services[indexPath.row].symbol)
         content.imageProperties.tintColor = AppTheme.tint
         content.imageProperties.maximumSize = CGSize(width: 26, height: 26)
         content.imageProperties.reservedLayoutSize = CGSize(width: 32, height: 26)
@@ -140,7 +149,12 @@ final class SettingsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == rulesSection {
-            openInFilza(path: RHBackend.customRulesPath(), from: self)
+            if indexPath.row == 0 {
+                navigationController?.pushViewController(
+                    URLSchemeRulesViewController(), animated: true)
+            } else {
+                openInFileManager(path: RHBackend.customRulesPath(), from: self)
+            }
         }
     }
 

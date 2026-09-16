@@ -99,7 +99,15 @@ static BOOL RHPortIsOpen(uint16_t port) {
         return NO;
     }
     NSString *customPath = self.customRulesPath;
-    return [manager fileExistsAtPath:customPath] || RHWriteDictionary(@{}, customPath, error);
+    if (![manager fileExistsAtPath:customPath] && !RHWriteDictionary(@{}, customPath, error)) {
+        return NO;
+    }
+    if (![self configurationForKey:@"urlSchemeReplacements"]) {
+        return [self setConfiguration:@{@"filza" : @{@"target" : @"fila", @"enabled" : @NO}}
+                               forKey:@"urlSchemeReplacements"
+                                error:error];
+    }
+    return YES;
 }
 
 + (id)configurationForKey:(NSString *)key {

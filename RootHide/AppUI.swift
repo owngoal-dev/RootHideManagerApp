@@ -14,18 +14,22 @@ func showMessage(_ message: String, title: String, from controller: UIViewContro
     controller.present(alert, animated: true)
 }
 
-func openInFilza(path: String, from controller: UIViewController) {
+func openInFileManager(path: String, from controller: UIViewController) {
     UIPasteboard.general.string = path
     var components = URLComponents()
-    components.scheme = "filza"
+    components.scheme = "fila"
     components.host = "view"
     components.path = path
-    guard let url = components.url else { return }
-    UIApplication.shared.open(url) { opened in
-        if !opened {
+    guard let fila = components.url else { return }
+    components.scheme = "filza"
+    guard let filza = components.url else { return }
+    UIApplication.shared.open(fila) { opened in
+        guard !opened else { return }
+        UIApplication.shared.open(filza) { opened in
+            guard !opened else { return }
             showMessage(
-                localized("Filza is not installed. The path has been copied."),
-                title: localized("Open in Filza"), from: controller)
+                localized("Neither Fila nor Filza could be opened. The path has been copied."),
+                title: localized("Open in File Manager"), from: controller)
         }
     }
 }

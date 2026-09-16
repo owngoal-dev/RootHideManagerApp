@@ -170,11 +170,6 @@ static inline void skipUTF8Character(UTF8Char **source) { *source += EncLen_UTF8
     NSData *strippedData =
         [self dataByStrippingJSONCommentsAndWhiteSpaceOfUTF8Data:data skipBytes:0];
 
-    // NSLog(@"before:\n%@", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]
-    // autorelease]);
-    // NSLog(@"after:\n%@", [[[NSString alloc] initWithData:strippedData
-    // encoding:NSUTF8StringEncoding] autorelease]);
-
     return [self JSONObjectWithData:strippedData options:opt error:error];
 }
 

@@ -1,3 +1,5 @@
+ifneq ($(filter-out format format-check check,$(if $(MAKECMDGOALS),$(MAKECMDGOALS),all)),)
+
 ARCHS = arm64 arm64e
 TARGET = iphone:latest:15.0
 DEB_ARCH = iphoneos-arm64e
@@ -37,3 +39,24 @@ before-package::
 
 after-install::
 	install.exec 'uiopen -b com.roothide.manager'
+
+endif
+
+SWIFT_FORMAT ?= xcrun swift-format
+CLANG_FORMAT ?= clang-format
+SWIFT_SOURCES := $(wildcard RootHide/*.swift Tests/*.swift)
+CLANG_SOURCES := $(filter-out RootHide/NSJSONSerialization+Comments.h RootHide/NSJSONSerialization+Comments.m,$(wildcard RootHide/*.[mh] RootHide/AppDataCleaner/*.[mh] Tests/*.m))
+
+.PHONY: format format-check check
+format:
+	$(SWIFT_FORMAT) format --in-place $(SWIFT_SOURCES)
+	$(CLANG_FORMAT) -i $(CLANG_SOURCES)
+
+format-check:
+	$(SWIFT_FORMAT) lint --strict $(SWIFT_SOURCES)
+	$(CLANG_FORMAT) --dry-run --Werror $(CLANG_SOURCES)
+
+check:
+	python3 Tests/check_localizations.py
+	python3 Tests/check_environment_summary.py
+	./Tests/check.sh

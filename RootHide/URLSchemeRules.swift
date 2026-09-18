@@ -81,7 +81,7 @@ enum URLSchemeRules {
 
     static func failure(_ message: String) -> NSError {
         NSError(
-            domain: "com.roothide.manager.urlschemes", code: 1,
+            domain: "wiki.qaq.veil.urlschemes", code: 1,
             userInfo: [NSLocalizedDescriptionKey: message])
     }
 }

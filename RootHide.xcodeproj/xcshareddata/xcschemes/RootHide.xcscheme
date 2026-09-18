@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A672ABAE27F748DE00878787"
-               BuildableName = "RootHide.app"
+               BuildableName = "Veil.app"
                BlueprintName = "RootHide"
                ReferencedContainer = "container:RootHide.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A672ABAE27F748DE00878787"
-            BuildableName = "RootHide.app"
+            BuildableName = "Veil.app"
             BlueprintName = "RootHide"
             ReferencedContainer = "container:RootHide.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A672ABAE27F748DE00878787"
-            BuildableName = "RootHide.app"
+            BuildableName = "Veil.app"
             BlueprintName = "RootHide"
             ReferencedContainer = "container:RootHide.xcodeproj">
          </BuildableReference>

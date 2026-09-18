@@ -1,6 +1,10 @@
-# RootHide Manager
+# Veil
 
-iOS 15+。Swift/UIKit 界面，保留 Objective-C 系统接口和清理规则引擎。
+Veil 是基于 RootHide Manager 的独立管理工具，由 OwnGoal Studio 维护。iOS 15+，Swift/UIKit 界面，保留 Objective-C 系统接口和清理规则引擎。
+
+软件包和 Bundle ID 为 `wiki.qaq.veil`，安装到 `/Applications/Veil.app`。通过 `Conflicts` 和 `Replaces` 接替 `com.roothide.manager`，不声明 `Provides`。安装前需确认不存在阻止替换的旧包反向依赖，不使用强制忽略依赖的安装方式。
+
+沿用 RootHide 的共享配置目录与数据格式，保留已有黑名单、清理规则和 URL Scheme 替换规则。内部工程名及 `RH` 前缀保持不变；原项目作者及许可证归属见 `LICENSE`。
 
 应用名单支持搜索、刷新、开关和长按／侧滑清除应用数据；开关保存仅更新对应应用。
 
@@ -37,6 +41,6 @@ make THEOS="$HOME/theos-roothide" package
 
 ## 图标
 
-重绘源图为 `RootHide/Assets.xcassets/AppIcon.appiconset/icon-1024.png`，已生成全部 iPhone/iPad 图标尺寸。通过内置 ImageGen 生成，再用系统 `sips` 缩放；设置页使用同源 `BrandIcon`。
+矢量母版位于 `Artwork/Veil.svg`：纯黑背景，白色叶片和右侧缺口轮廓，内部以黑色负形融入 Relaxin 的像素 R。所有 AppIcon 和设置页 BrandIcon 均由同一母版导出。
 
-生成提示：保留原有深色背景、带叶片的咬痕苹果轮廓、右半白色与左半彩色终端纹理、左下至右上的细斜向棱彩分割线。简化终端字符为稀疏的绿、黄、珊瑚红和紫色横向符号；边缘清晰、缩小后易辨认；不添加文字、边框、圆角或其他图形。
+使用 `rsvg-convert -w <像素宽度> -h <像素高度> -o <输出.png> Artwork/Veil.svg` 导出；AppIcon 尺寸由其 `Contents.json` 的 `size × scale` 决定，BrandIcon 为 228×228。导出后使用 `magick <输出.png> -alpha off -strip -define png:color-type=2 <输出.png>` 移除 alpha 通道和多余元数据。

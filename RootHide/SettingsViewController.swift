@@ -130,7 +130,7 @@ final class SettingsViewController: UITableViewController {
         icon.layer.cornerRadius = 17
         icon.clipsToBounds = true
         let name = UILabel()
-        name.text = "RootHide"
+        name.text = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
         name.font = UIFontMetrics(forTextStyle: .title2).scaledFont(
             for: .systemFont(ofSize: 24, weight: .semibold))
         let version = UILabel()

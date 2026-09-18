@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+    abort-install|abort-upgrade)
+        if [ -d /Applications/RootHide.app ]; then
+            uicache -p /Applications/RootHide.app
+        fi
+        ;;
+esac

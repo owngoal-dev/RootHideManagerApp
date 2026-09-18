@@ -45,7 +45,7 @@
 		848148282D131A2800CB9FA9 /* AppDataCleaner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDataCleaner.m; path = AppDataCleaner/AppDataCleaner.m; sourceTree = "<group>"; };
 		848D86662DBC606D003C680F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		84BBFAC72A741C800054A68E /* VarCleanRules.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = VarCleanRules.json; sourceTree = "<group>"; };
-		A672ABAF27F748DE00878787 /* RootHide.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RootHide.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A672ABAF27F748DE00878787 /* Veil.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Veil.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A672ABBE27F748E100878787 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A672ABC327F748E100878787 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A672ABC427F748E100878787 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -110,7 +110,7 @@
 		A672ABB027F748DE00878787 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A672ABAF27F748DE00878787 /* RootHide.app */,
+				A672ABAF27F748DE00878787 /* Veil.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -176,7 +176,7 @@
 			);
 			name = RootHide;
 			productName = RootHide;
-			productReference = A672ABAF27F748DE00878787 /* RootHide.app */;
+			productReference = A672ABAF27F748DE00878787 /* Veil.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -383,7 +383,7 @@
 				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RootHide/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = RootHide;
+				INFOPLIST_KEY_CFBundleDisplayName = Veil;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -399,8 +399,9 @@
 					"$(PROJECT_DIR)/RootHide/roothide",
 				);
 				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.roothide.manager;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.veil;
+				PRODUCT_NAME = Veil;
+				PRODUCT_MODULE_NAME = RootHide;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -426,7 +427,7 @@
 				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RootHide/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = RootHide;
+				INFOPLIST_KEY_CFBundleDisplayName = Veil;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -442,8 +443,9 @@
 					"$(PROJECT_DIR)/RootHide/roothide",
 				);
 				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.roothide.manager;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.veil;
+				PRODUCT_NAME = Veil;
+				PRODUCT_MODULE_NAME = RootHide;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;

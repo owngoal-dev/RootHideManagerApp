@@ -9,7 +9,7 @@ extern int spawnRoot(NSString *path, NSArray *args, NSString **stdOut, NSString 
 
 static BOOL PortError(NSError **error, NSString *message) {
     if (error) {
-        *error = [NSError errorWithDomain:@"com.roothide.manager.serviceports"
+        *error = [NSError errorWithDomain:@"wiki.qaq.veil.serviceports"
                                      code:1
                                  userInfo:@{NSLocalizedDescriptionKey : message}];
     }

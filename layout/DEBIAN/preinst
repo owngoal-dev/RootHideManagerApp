@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+    install|upgrade)
+        if [ -d /Applications/RootHide.app ]; then
+            uicache -u /Applications/RootHide.app
+        fi
+        ;;
+esac

@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+    remove|deconfigure)
+        if [ -d /Applications/Veil.app ]; then
+            uicache -u /Applications/Veil.app
+        fi
+        ;;
+esac

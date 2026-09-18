@@ -1,12 +1,13 @@
-Package: com.roothide.manager
-Name: RootHide Manager
+Package: wiki.qaq.veil
+Name: Veil
 Version: 2.0
 Architecture: iphoneos-arm64e
 Depends: firmware (>= 15.0)
-Description: Configuare RootHide's Features
-Maintainer: roothide
+Conflicts: com.roothide.manager
+Replaces: com.roothide.manager
+Description: Manage RootHide settings and services.
+Maintainer: OwnGoal Studio <not-gonna-reply@owngoal.dev>
 Author: roothide
 Section: System
-Icon: 
-Depiction: https://github.com/roothide/RootHideManagerApp
-Support: https://github.com/roothide/RootHideManagerApp
+Depiction: https://github.com/Lessica/RootHideManagerApp
+Support: https://github.com/Lessica/RootHideManagerApp

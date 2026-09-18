@@ -1,5 +1,10 @@
 #!/bin/sh
+set -e
 
-uicache -p /Applications/RootHide.app
-chown 0:0 /Applications/RootHide.app/RootHide
-chmod +s /Applications/RootHide.app/RootHide
+case "$1" in
+    configure|abort-upgrade|abort-remove|abort-deconfigure)
+        chown 0:0 /Applications/Veil.app/Veil
+        chmod +s /Applications/Veil.app/Veil
+        uicache -p /Applications/Veil.app
+        ;;
+esac
